@@ -1,0 +1,170 @@
+python
+java
+c
+c++
+c#
+go
+golang
+rust
+ruby
+php
+swift
+kotlin
+scala
+typescript
+javascript
+html
+css
+r
+perl
+dart
+matlab
+sql
+mysql
+postgresql
+sqlite
+mongodb
+redis
+cassandra
+dynamodb
+oracle
+mariadb
+elasticsearch
+firebase
+cloud
+aws
+azure
+gcp
+google cloud
+heroku
+digitalocean
+ibm cloud
+cloudflare
+docker
+kubernetes
+linux
+unix
+bash
+powershell
+git
+github
+gitlab
+bitbucket
+ci/cd
+jenkins
+travis
+circleci
+terraform
+ansible
+puppet
+chef
+vagrant
+react
+angular
+vue
+svelte
+node
+nodejs
+express
+django
+flask
+fastapi
+spring
+springboot
+nextjs
+nuxtjs
+ruby on rails
+laravel
+symfony
+asp.net
+bootstrap
+tailwind
+jquery
+machine learning
+deep learning
+ml
+ai
+artificial intelligence
+nlp
+natural language processing
+cv
+computer vision
+reinforcement learning
+tensorflow
+pytorch
+keras
+scikit-learn
+sklearn
+numpy
+pandas
+matplotlib
+seaborn
+plotly
+huggingface
+spacy
+nltk
+gensim
+hadoop
+spark
+hive
+pig
+hbase
+kafka
+airflow
+beam
+flink
+big data
+etl
+pipeline
+databricks
+snowflake
+redshift
+engineer
+developer
+backend
+frontend
+fullstack
+api
+rest
+graphql
+microservices
+oop
+object oriented
+functional programming
+agile
+scrum
+kanban
+tdd
+bdd
+devops
+jira
+confluence
+notion
+slack
+asana
+trello
+monday
+tableau
+powerbi
+excel
+looker
+qlik
+cybersecurity
+penetration testing
+networking
+tcp/ip
+http
+dns
+firewall
+encryption
+blockchain
+web3
+solidity
+smart contracts
+metaverse
+augmented reality
+virtual reality
+vr
+ar
+unity
+unreal engine

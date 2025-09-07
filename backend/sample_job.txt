@@ -1,0 +1,22 @@
+Job Title: Software Engineer (Data & AI)
+
+We are looking for a highly motivated Software Engineer to join our Data & AI team.
+
+Responsibilities:
+- Design and develop scalable backend systems.
+- Collaborate with data scientists to deploy machine learning models.
+- Work with cloud platforms (AWS, Azure, or GCP).
+- Optimize SQL queries and manage relational databases.
+- Build APIs and integrate with third-party services.
+
+Requirements:
+- Strong programming skills in Python or Java.
+- Experience with SQL and data analysis.
+- Knowledge of cloud computing platforms.
+- Familiarity with machine learning concepts.
+- Excellent problem-solving and communication skills.
+
+Preferred Qualifications:
+- Experience with Docker and Kubernetes.
+- Exposure to big data tools (Spark, Hadoop).
+- Previous internship or project work in data engineering or AI.

@@ -5,6 +5,13 @@ from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+def load_skills(file_path="backend/skills.txt"):
+    with open(file_path, "r", encoding="utf-8") as f:
+        return {line.strip().lower() for line in f if line.strip()}
+
+SKILL_KEYWORDS = load_skills()
+
+
 def clean_and_tokenize(text: str):
     text = text.lower()
     text = re.sub(r'[^a-z0-9+]', ' ', text)  # keep alphanumeric
@@ -17,17 +24,33 @@ def extract_keywords(text: str, top_n=20):
     return [word for word, freq in counts.most_common(top_n)]
 
 def keyword_overlap(resume_text: str, job_text: str):
-    resume_tokens = set(clean_and_tokenize(resume_text))
-    job_keywords = set(extract_keywords(job_text, top_n=30))
+    resume_text_lower = resume_text.lower()
+    job_text_lower = job_text.lower()
 
-    matched = resume_tokens.intersection(job_keywords)
-    missing = job_keywords - resume_tokens
+    matched = []
+    missing = []
+
+    for skill in SKILL_KEYWORDS:
+        pattern = r"\b" + re.escape(skill) + r"\b"
+
+        in_resume = re.search(pattern, resume_text_lower)
+        in_job = re.search(pattern, job_text_lower)
+
+        if in_job:
+            if in_resume:
+                matched.append(skill)
+            else:
+                missing.append(skill)
+
+    match_score = round(len(matched) / max(len(matched) + len(missing), 1) * 100, 2)
 
     return {
-        "matched": list(matched),
-        "missing": list(missing),
-        "match_score": round(len(matched) / len(job_keywords) * 100, 2)
+        "matched": sorted(set(matched)),
+        "missing": sorted(set(missing)),
+        "match_score": match_score
     }
+
+
 
 def tfidf_similarity(resume_text: str, job_text: str) -> float:
     documents = [resume_text, job_text]
@@ -46,10 +69,7 @@ def sbert_similarity(resume_text: str, job_text: str) -> float:
 if __name__ == "__main__":
 
     resume_text = "Python developer with experience in machine learning and SQL databases."
-    job_text = """
-    We are looking for a software engineer skilled in Python, SQL, cloud computing,
-    and data analysis. Experience with machine learning is a plus.
-    """
+    job_text = " We are looking for a software engineer skilled in Python, SQL, cloud computing, and data analysis. Experience with machine learning is a plus."
 
     results = keyword_overlap(resume_text, job_text)
     print("Matched Skills:", results["matched"])
