@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI(title="Resume Analyzer API")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # you can restrict to ["http://localhost:3000"]
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -23,28 +23,32 @@ async def analyze_resume(
     resume: UploadFile = File(...),
     job_text: str = Form(...)
 ):
-    # Save uploaded resume temporarily
     suffix = os.path.splitext(resume.filename)[1]
     with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
         shutil.copyfileobj(resume.file, tmp)
         tmp_path = tmp.name
 
     try:
-        # Extract text from resume (PDF or DOCX)
         resume_text = extract_text(tmp_path)
 
-        # Run analysis
         sbert_score = sbert_similarity(resume_text, job_text)
         overlap_results = keyword_overlap(resume_text, job_text)
 
+        matched_skills = overlap_results["matched"]
+        missing_skills = overlap_results["missing"]
+
+        total_skills = len(matched_skills) + len(missing_skills)
+        match_ratio = len(matched_skills) / total_skills if total_skills > 0 else 0
+
+        final_score = round((sbert_score * 0.65) + (match_ratio * 100 * 0.35), 2)
+
         result = {
-            "sbert_score": sbert_score,
-            "matched_skills": sorted(overlap_results["matched"]),
-            "missing_skills": sorted(overlap_results["missing"])
+            "final_score": final_score,
+            "matched_skills": matched_skills,
+            "missing_skills": missing_skills
         }
 
         return JSONResponse(content=result)
 
     finally:
-        # Cleanup temp file
         os.remove(tmp_path)

@@ -20,10 +20,6 @@ function App() {
     formData.append("resume", resumeFile);
     formData.append("job_text", jobText);
 
-    for (let [key, value] of formData.entries()) {
-    console.log(key, value);
-    }
-
     try {
       const res = await axios.post("http://127.0.0.1:8000/analyze", formData);
       setResult(res.data);
@@ -33,15 +29,21 @@ function App() {
     }
   };
 
+  // Utility: sort skills by importance
+  const sortByImportance = (skills) => {
+    const order = { high: 0, medium: 1, low: 2 };
+    return [...skills].sort(
+      (a, b) => (order[a.importance] ?? 3) - (order[b.importance] ?? 3)
+    );
+  };
+
   return (
-    
     <div className="min-h-screen bg-gray-50 flex flex-col items-center p-6">
-      {"Hello"}
       <h1 className="text-3xl font-bold text-gray-800 mb-6">
         Resume Analyzer
       </h1>
 
-      {/* Upload Card */}
+      {/*Upload*/}
       <div className="bg-white shadow-xl rounded-2xl p-6 w-full max-w-2xl space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -75,36 +77,46 @@ function App() {
         </button>
       </div>
 
-      {/* Results */}
+      {/*Results*/}
       {result && (
-        <div className="mt-8 w-full max-w-2xl bg-white shadow-lg rounded-2xl p-6 space-y-4">
+        <div className="mt-8 w-full max-w-2xl bg-white shadow-lg rounded-2xl p-6 space-y-6">
           <h2 className="text-xl font-bold mb-4 text-gray-800">Results</h2>
 
-          {/* SBERT Score */}
+          {/*Score*/}
           <div>
-            <p className="font-medium text-gray-700 mb-2">Semantic Match Score</p>
+            <p className="font-medium text-gray-700 mb-2">
+              Semantic Match Score
+            </p>
             <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
               <div
-                className="bg-blue-600 h-4 rounded-full transition-all"
-                style={{ width: `${result.sbert_score.toFixed(0)}%` }}
+                className={`
+                  h-4 rounded-full transition-all 
+                  ${result.final_score >= 70 ? "bg-green-600" : result.final_score >= 55 ? "bg-amber-500" : "bg-red-600"}
+                `}
+                style={{ width: `${result.final_score.toFixed(0)}%` }}
               />
             </div>
             <p className="text-sm text-gray-600 mt-1">
-              {result.sbert_score.toFixed(2)}%
+              {result.final_score.toFixed(2) + "% - "}
+              {result.final_score >= 70
+                ? "You're good to go!"
+                : result.final_score >= 55
+                ? "Almost there!"
+                : "Needs improvement"}
             </p>
           </div>
 
-          {/* Matched Skills */}
+          {/*Matched*/}
           <div>
             <p className="font-medium text-gray-700 mb-2">Matched Skills</p>
             <div className="flex flex-wrap gap-2">
-              {result.matched_skills.length > 0 ? (
-                result.matched_skills.map((skill, idx) => (
+              {sortByImportance(result.matched_skills).length > 0 ? (
+                sortByImportance(result.matched_skills).map((item, idx) => (
                   <span
                     key={idx}
                     className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm"
                   >
-                    {skill}
+                    {item.skill}
                   </span>
                 ))
               ) : (
@@ -113,23 +125,71 @@ function App() {
             </div>
           </div>
 
-          {/* Missing Skills */}
+          {/*Missing*/}
           <div>
             <p className="font-medium text-gray-700 mb-2">Missing Skills</p>
             <div className="flex flex-wrap gap-2">
-              {result.missing_skills.length > 0 ? (
-                result.missing_skills.map((skill, idx) => (
+              {sortByImportance(result.missing_skills).length > 0 ? (
+                sortByImportance(result.missing_skills).map((item, idx) => (
                   <span
                     key={idx}
                     className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm"
                   >
-                    {skill}
+                    {item.skill}
                   </span>
                 ))
               ) : (
-                <p className="text-gray-500 text-sm">No missing skills 🎉</p>
+                <p className="text-gray-500 text-sm">No missing skills.</p>
               )}
             </div>
+          </div>
+          {/*Priorities*/}
+          <div>
+            <p className="font-medium text-gray-700 mb-2">
+              Recommended Priorities
+            </p>
+              
+            {(() => {
+              const high = result.missing_skills.filter((s) => s.importance === "high");
+              const medium = result.missing_skills.filter((s) => s.importance === "medium");
+              const low = result.missing_skills.filter((s) => s.importance === "low");
+
+              let priorities = [...high];
+
+              if (priorities.length < 5) {
+                const needed = 5 - priorities.length;
+                priorities = [...priorities, ...medium.slice(0, needed)];
+              }
+              if (priorities.length < 5) {
+                const needed = 5 - priorities.length;
+                priorities = [...priorities, ...low.slice(0, needed)];
+              }
+
+              return (
+                <ul className="list-disc list-inside text-gray-700 space-y-1">
+                  {priorities.length > 0 ? (
+                    priorities.map((item, idx) => (
+                      <li
+                        key={idx}
+                        className={`${
+                          item.importance === "high"
+                            ? "font-bold text-red-700"
+                            : item.importance === "medium"
+                            ? "font-semibold text-yellow-700"
+                            : "text-gray-600"
+                        }`}
+                      >
+                        {item.skill + " (" + item.importance + ")"}
+                      </li>
+                    ))
+                  ) : (
+                    <li className="text-gray-500 text-sm">
+                      No missing skills to prioritise.
+                    </li>
+                  )}
+                </ul>
+              );
+            })()}
           </div>
         </div>
       )}
@@ -138,3 +198,4 @@ function App() {
 }
 
 export default App;
+

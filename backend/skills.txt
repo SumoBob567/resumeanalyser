@@ -119,8 +119,9 @@ pipeline
 databricks
 snowflake
 redshift
-engineer
-developer
+data engineering
+internship
+project
 backend
 frontend
 fullstack

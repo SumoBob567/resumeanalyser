@@ -11,11 +11,16 @@ def analyze_resume_vs_job(resume_path: str, job_path: str):
     overlap_results = keyword_overlap(resume_text, job_text)
     sbert_score = sbert_similarity(resume_text, job_text)
 
-    matched_skills = sorted(overlap_results["matched"])
-    missing_skills = sorted(overlap_results["missing"])
+    matched_skills = overlap_results["matched"]
+    missing_skills = overlap_results["missing"]
+
+    total_skills = len(matched_skills) + len(missing_skills)
+    match_ratio = len(matched_skills) / total_skills if total_skills > 0 else 0
+
+    final_score = round((sbert_score * 0.75) + (match_ratio * 100 * 0.25), 2)
 
     result = {
-        "sbert_score": sbert_score,
+        "final_score": final_score,
         "matched_skills": matched_skills,
         "missing_skills": missing_skills
     }
