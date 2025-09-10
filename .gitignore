@@ -1,3 +1,4 @@
+backend/__pycache__/
 __pycache__/
 *.py[cod]
 *.pyo
@@ -14,9 +15,9 @@ Thumbs.db
 
 *.log
 
-resumeanalyser/backend/sample_job.txt
-resumeanalyser/backend/sample_resume.docx
-resumeanalyser/backend/sample_resume.pdf
+backend/sample_job.txt
+backend/sample_resume.docx
+backend/sample_resume.pdf
 
 *.sqlite3
 *.db

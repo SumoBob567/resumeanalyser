@@ -29,11 +29,7 @@ def analyze_resume_vs_job(resume_path: str, job_path: str):
 
 
 if __name__ == "__main__":
-    # Example usage
     resume_file = "backend/sample_resume.docx"
     job_file = "backend/sample_job.txt"
-
     results = analyze_resume_vs_job(resume_file, job_file)
-
-    # Print nicely formatted JSON
     print(json.dumps(results, indent=2))
