@@ -13,7 +13,22 @@ def load_skills(file_path="backend/skills.txt"):
 
 SKILL_KEYWORDS = load_skills()
 SKILL_LIST = sorted(list(SKILL_KEYWORDS))
-SKILL_EMBEDDINGS = sbert_model.encode(SKILL_LIST, convert_to_tensor=True)
+#SKILL_EMBEDDINGS = sbert_model.encode(SKILL_LIST, convert_to_tensor=True)
+
+sbert_model = None
+SKILL_EMBEDDINGS = None
+
+def get_model():
+    global sbert_model, SKILL_EMBEDDINGS
+    if sbert_model is None:
+        sbert_model = SentenceTransformer("all-MiniLM-L6-v2")
+        SKILL_EMBEDDINGS = sbert_model.encode(SKILL_LIST, convert_to_tensor=True)
+        example_embeddings = {
+            level: sbert_model.encode(examples, convert_to_tensor=True)
+            for level, examples in importance_examples.items()
+        }
+
+    return sbert_model, SKILL_EMBEDDINGS, example_embeddings
 
 def clean_and_tokenize(text: str):
     text = text.lower()
@@ -31,6 +46,7 @@ def _chunk_text_for_embedding(text: str):
     return [c.strip() for c in chunks if c.strip()]
 
 def keyword_overlap(resume_text: str, job_text: str, job_threshold: float = 0.60, resume_threshold: float = 0.60):
+    sbert_model, SKILL_EMBEDDINGS, example_embeddings = get_model()
     resume_text_lower = resume_text.lower()
     job_text_lower = job_text.lower()
 
@@ -86,16 +102,8 @@ def keyword_overlap(resume_text: str, job_text: str, job_threshold: float = 0.60
 
     return {"matched": matched, "missing": missing}
 
-
-
-def tfidf_similarity(resume_text: str, job_text: str) -> float:
-    documents = [resume_text, job_text]
-    vectorizer = TfidfVectorizer(stop_words="english")
-    tfidf_matrix = vectorizer.fit_transform(documents)
-    similarity = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])
-    return round(float(similarity[0][0]) * 100, 2)
-
 def sbert_similarity(resume_text: str, job_text: str) -> float:
+    sbert_model, SKILL_EMBEDDINGS, example_embeddings = get_model()
     embeddings = sbert_model.encode([resume_text, job_text])
     similarity = cosine_similarity([embeddings[0]], [embeddings[1]])
     return round(float(similarity[0][0]) * 100, 2)
@@ -121,12 +129,13 @@ importance_examples = {
     ]
 }
 
-example_embeddings = {
+"""example_embeddings = {
     level: sbert_model.encode(examples, convert_to_tensor=True)
     for level, examples in importance_examples.items()
-}
+}"""
 
 def classify_importance(skill: str, job_text: str) -> str:
+    sbert_model, SKILL_EMBEDDINGS, example_embeddings = get_model()
     sentences = re.split(r'[.!\n]', job_text)
     sentences = [s.strip() for s in sentences if s.strip()]
 
