@@ -5,6 +5,8 @@ function App() {
   const [resumeFile, setResumeFile] = useState(null);
   const [jobText, setJobText] = useState("");
   const [result, setResult] = useState(null);
+  
+  const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:8000";
 
   const handleFileChange = (e) => {
     setResumeFile(e.target.files[0]);
@@ -21,7 +23,8 @@ function App() {
     formData.append("job_text", jobText);
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/analyze", formData);
+      //const res = await axios.post("http://127.0.0.1:8000/analyze", formData);
+      const res = await axios.post(`${API_URL}/analyze`, formData);
       setResult(res.data);
     } catch (err) {
       console.error("Axios error:", err.response || err.message);
@@ -29,7 +32,6 @@ function App() {
     }
   };
 
-  // Utility: sort skills by importance
   const sortByImportance = (skills) => {
     const order = { high: 0, medium: 1, low: 2 };
     return [...skills].sort(
