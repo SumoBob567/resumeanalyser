@@ -5,7 +5,7 @@ from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-sbert_model = SentenceTransformer("all-MiniLM-L6-v2")
+#sbert_model = SentenceTransformer("all-MiniLM-L6-v2")
 
 def load_skills(file_path="backend/skills.txt"):
     with open(file_path, "r", encoding="utf-8") as f:
