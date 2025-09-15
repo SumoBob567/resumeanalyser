@@ -74,10 +74,10 @@ Run the following from the project root:
 
 ## Usage
 
-Upload a resume (PDF/DOCX)
-Enter a job description
-Click Analyze
-Receive:
- - Semantic match score (0-100%)
- - Matched skills
- - Missing skills
+ - Upload a resume (PDF/DOCX)
+ - Enter a job description
+ - Click Analyze
+ - Receive:
+   - Semantic match score (0-100%)
+   - Matched skills
+   - Missing skills
