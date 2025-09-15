@@ -21,7 +21,8 @@ SKILL_EMBEDDINGS = None
 def get_model():
     global sbert_model, SKILL_EMBEDDINGS, example_embeddings
     if sbert_model is None:
-        sbert_model = SentenceTransformer("all-MiniLM-L6-v2")
+        #sbert_model = SentenceTransformer("all-MiniLM-L6-v2")
+        sbert_model = SentenceTransformer("paraphrase-MiniLM-L3-v2")
         SKILL_EMBEDDINGS = sbert_model.encode(SKILL_LIST, convert_to_tensor=True)
         example_embeddings = {
             level: sbert_model.encode(examples, convert_to_tensor=True)

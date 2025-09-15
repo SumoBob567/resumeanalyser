@@ -37,10 +37,11 @@ async def analyze_resume(
         tmp_path = tmp.name
 
     try:
-        suffix = os.path.splitext(resume.filename)[1]
-        with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
-            shutil.copyfileobj(resume.file, tmp)
-            tmp_path = tmp.name
+        if os.path.getsize(tmp_path) == 0:
+            return JSONResponse(
+            status_code=400,
+            content={"error": "Uploaded file is empty"}
+            )
         resume_text = extract_text(tmp_path)
 
         sbert_score = sbert_similarity(resume_text, job_text)
