@@ -38,7 +38,7 @@ example_embeddings = {}
 def get_model():
     global sbert_model, example_embeddings
     if sbert_model is None:
-        sbert_model = SentenceTransformer("paraphrase-MiniLM-L3-v2")
+        sbert_model = SentenceTransformer("all-MiniLM-L6-v2")
         example_embeddings = {
             level: sbert_model.encode(examples, convert_to_tensor=True)
             for level, examples in importance_examples.items()
