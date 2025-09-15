@@ -16,7 +16,7 @@ async def lifespan(app: FastAPI):
     get_model()
     yield
 
-app = FastAPI(title="Resume Analyzer API", lifespan=lifespan)
+app = FastAPI(title="Resume Analyser API", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"], 
@@ -33,8 +33,8 @@ async def root():
 async def ping():
     return {"status": "ok"}
 
-@app.post("/analyze")
-async def analyze_resume(
+@app.post("/analyse")
+async def analyse_resume(
     resume: UploadFile = File(...),
     job_text: str = Form(...)
 ):

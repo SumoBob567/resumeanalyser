@@ -1,6 +1,6 @@
-# Resume Analyzer
+# Resume Analyser
 
-A full-stack web application that analyzes resumes against a job description to provide semantic and keyword-based match scores. Built using **FastAPI** for the backend, **React** for the frontend, and **Sentence Transformers (SBERT)** for natural language understanding.
+A full-stack web application that analyses resumes against a job description to provide semantic and keyword-based match scores. Built using **FastAPI** for the backend, **React** for the frontend, and **Sentence Transformers (SBERT)** for natural language understanding.
 
 ---
 
@@ -27,7 +27,7 @@ You can access the deployed application here:
 - **Keyword Matching:** Identifies which job-required skills are present or missing in a resume.
 - **Importance Classification:** Tags skills as high, medium, or low importance based on contextual cues in the job description.
 - **File Upload Support:** Accepts PDF, DOCX, and TXT resume files.
-- **REST API:** Fully functional backend API with `/analyze` endpoint.
+- **REST API:** Fully functional backend API with `/analyse` endpoint.
 - **CORS-enabled:** Allows secure communication between frontend and backend.
 
 ---
@@ -48,8 +48,8 @@ You can access the deployed application here:
 ### Backend
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/resume-analyzer.git
-   cd resume-analyzer
+   git clone https://github.com/SumoBob567/resumeanalyser
+   cd resumeanalyser
 
 2. Create and activate a virtual environment:
     python -m venv .venv
@@ -76,7 +76,7 @@ Run the following from the project root:
 
  - Upload a resume (PDF/DOCX)
  - Enter a job description
- - Click Analyze
+ - Click Analyse
  - Receive:
    - Semantic match score (0-100%)
    - Matched skills

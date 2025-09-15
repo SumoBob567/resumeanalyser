@@ -23,8 +23,8 @@ function App() {
     formData.append("job_text", jobText);
 
     try {
-      //const res = await axios.post("http://127.0.0.1:8000/analyze", formData);
-      const res = await axios.post(`${API_URL}/analyze`, formData);
+      //const res = await axios.post("http://127.0.0.1:8000/analyse", formData);
+      const res = await axios.post(`${API_URL}/analyse`, formData);
       setResult(res.data);
     } catch (err) {
       console.error("Axios error:", err.response || err.message);
@@ -42,7 +42,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center p-6">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">
-        Resume Analyzer
+        Resume Analyser
       </h1>
 
       {/*Upload*/}
@@ -75,7 +75,7 @@ function App() {
           onClick={handleSubmit}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition"
         >
-          Analyze Resume
+          Analyse Resume
         </button>
       </div>
 

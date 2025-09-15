@@ -2,7 +2,7 @@ import json
 from resume_parser import extract_text
 from analyser import keyword_overlap, sbert_similarity
 
-def analyze_resume_vs_job(resume_path: str, job_path: str):
+def analyse_resume_vs_job(resume_path: str, job_path: str):
     resume_text = extract_text(resume_path)
 
     with open(job_path, "r", encoding="utf-8") as f:
@@ -31,5 +31,5 @@ def analyze_resume_vs_job(resume_path: str, job_path: str):
 if __name__ == "__main__":
     resume_file = "backend/sample_resume.docx"
     job_file = "backend/sample_job.txt"
-    results = analyze_resume_vs_job(resume_file, job_file)
+    results = analyse_resume_vs_job(resume_file, job_file)
     print(json.dumps(results, indent=2))
