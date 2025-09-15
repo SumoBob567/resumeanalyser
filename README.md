@@ -68,8 +68,7 @@ You can access the deployed application here:
 5. Access API documentation at http://localhost:8000/docs
 
 ### Frontend
-
-Run the following from the project root:
+1. Run the following from the project root:
     ```bash
     cd frontend
     npm install
