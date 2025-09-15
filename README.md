@@ -47,19 +47,22 @@ You can access the deployed application here:
 
 ### Backend
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/SumoBob567/resumeanalyser
-   cd resumeanalyser
+    ```bash
+    git clone https://github.com/SumoBob567/resumeanalyser
+    cd resumeanalyser
 
 2. Create and activate a virtual environment:
+    ```bash
     python -m venv .venv
     source .venv/bin/activate   # Linux/Mac
     .venv\Scripts\activate      # Windows
 
 3. Install dependencies:
+    ```bash
     pip install -r requirements.txt
 
 4. Start the backend server:
+    ```bash
     uvicorn api:app --host 0.0.0.0 --port 10000
 
 5. Access API documentation at http://localhost:8000/docs
@@ -67,9 +70,10 @@ You can access the deployed application here:
 ### Frontend
 
 Run the following from the project root:
- - cd frontend
- - npm install
- - npm start
+    ```bash
+    cd frontend
+    npm install
+    npm start
 
 
 ## Usage
