@@ -1,15 +1,23 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.responses import JSONResponse
+from contextlib import asynccontextmanager
 import tempfile
 import shutil
 import os
+import time
 
 from backend.resume_parser import extract_text
-from backend.analyser import keyword_overlap, sbert_similarity
+from backend.analyser import keyword_overlap, sbert_similarity, get_model
 
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI(title="Resume Analyzer API")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global sbert_model, SKILL_EMBEDDINGS, example_embeddings
+    sbert_model, SKILL_EMBEDDINGS, example_embeddings = get_model()
+    yield
+
+app = FastAPI(title="Resume Analyzer API", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"], 
@@ -42,9 +50,15 @@ async def analyze_resume(
             status_code=400,
             content={"error": "Uploaded file is empty"}
             )
+        
+        start = time.time()
         resume_text = extract_text(tmp_path)
+        print("Extract text:", time.time() - start, "s")
 
+        start = time.time()
         sbert_score = sbert_similarity(resume_text, job_text)
+        print("Extract text:", time.time() - start, "s")
+
         overlap_results = keyword_overlap(resume_text, job_text)
 
         matched_skills = overlap_results["matched"]
