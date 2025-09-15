@@ -14,7 +14,7 @@ A full-stack web application that analyzes resumes against a job description to 
 ---
 
 ## Demo
-You can access the deployed application here:
+You can access the deployed application here:  
 **Backend no longer deployed due to RAM requirements exceeding 512MB (Render's Free Tier)**
 
 - **Frontend:** [Vercel URL](https://resumeanalyser-olive.vercel.app)
