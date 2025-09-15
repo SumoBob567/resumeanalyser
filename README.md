@@ -67,9 +67,9 @@ You can access the deployed application here:
 ### Frontend
 
 Run the following from the project root:
-    cd frontend
-    npm install
-    npm start
+ - cd frontend
+ - npm install
+ - npm start
 
 
 ## Usage
