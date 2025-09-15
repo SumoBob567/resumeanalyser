@@ -26,7 +26,7 @@ You can access the deployed application here:
 - **Semantic Match Score:** Uses SBERT embeddings to calculate similarity between resume content and job description.
 - **Keyword Matching:** Identifies which job-required skills are present or missing in a resume.
 - **Importance Classification:** Tags skills as high, medium, or low importance based on contextual cues in the job description.
-- **File Upload Support:** Accepts PDF, DOCX, and TXT resume files.
+- **File Upload Support:** Accepts PDF and DOCX resume files.
 - **REST API:** Fully functional backend API with `/analyse` endpoint.
 - **CORS-enabled:** Allows secure communication between frontend and backend.
 
