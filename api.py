@@ -13,8 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global sbert_model
-    sbert_model = get_model()
+    get_model()
     yield
 
 app = FastAPI(title="Resume Analyzer API", lifespan=lifespan)
